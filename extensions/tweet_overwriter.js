@@ -52,11 +52,24 @@ function genInnerHtml(urls) {
 	return html;
 }
 
+function genProgressInnerHtml(inner, progressCount) {
+	var replaced = inner.replace(/\<span\>.*\<\/span\>$/g, '');
+	
+	if (progressCount === 0) {
+		return replaced;
+	}
+
+	return replaced + `<span>${progressCount}件浄水中...</span>`;
+}
+
 var offset = 0;
 
-function convertIrasutoya(){
+function convertIrasutoya() {
+	var globalNav = document.getElementById('global-actions');
 	var rawTweets = document.getElementsByClassName('js-tweet-text');
 	var tweets = [];
+	var progressCount = 0;
+
 	for (var i = offset; i < rawTweets.length; i++) {
 		tweets[i] = { id: guid(), content: rawTweets[i] };
 	}
@@ -72,10 +85,15 @@ function convertIrasutoya(){
 			continue;
 		}
 
+		progressCount++;
+		globalNav.innerHTML = genProgressInnerHtml(globalNav.innerHTML, progressCount);
 		$.ajax({ 
 			type: 'GET',
 			url: `http://localhost:3000/translate/${tweets[i].id}/${textContent}`,
 		}).done(function(response) {
+			progressCount--;
+			globalNav.innerHTML = genProgressInnerHtml(globalNav.innerHTML, progressCount);
+
 			var tweet = findTweet(tweets, response.id);
 
 			if (tweet === null) {
