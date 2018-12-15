@@ -6,13 +6,15 @@ function convert_nyan(){
 	var index = offset;
     for (var i = offset; i < tweets.length; i++) {
 		offset++;
-		console.log(tweets[i])
+		var textContent = tweets[i].textContent
+			.replace(/pic\.twitter\.com\/.*$/g, '')
+			.replace(/(http|https):\/\/.*$/g, '');
+
 		$.ajax({ 
 			type: 'POST',
 			url: 'http://localhost:3000/convert_tweets',
-			data: { 'tweet': tweets[i].toString() },
+			data: { 'tweet': textContent },
 		}).done(function(response) {
-			console.log(tweets[index]);
 			tweets[index].innerHTML = `<img src='${response.url}' width='100' height='100'/>`;
 			index++;
 		});
