@@ -1,6 +1,7 @@
 import pickle
 import MeCab
 import sys, os
+import numpy as np
 from wordprosesser.embedder import load_model
 
 
@@ -29,8 +30,8 @@ def separate(text):
     mecab = MeCab.Tagger("-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd")
     mecab.parse('')
 
-    stop_pos = ["助詞", "助動詞", "BOS/EOS"]
-    stop_words = ["イラスト", "（", "）", "*"]
+    stop_pos = ["助詞", "助動詞", "副詞", "BOS/EOS"]
+    stop_words = ["イラスト", "（", "）", "*", "．", "。"]
 
     node = mecab.parseToNode(text)
 
@@ -52,11 +53,13 @@ def dict_to_vector(src):
 
     model = load_model("../model/entity_vector.model.bin")
 
-    lines = lines[:100]
     outputs = []
 
     for line in lines:
-        sentence, url = line.split(",")
+        try:
+            sentence, url = line.split(",")
+        except ValueError:
+            continue
         words = sentence.split()
         vectors = []
         for word in words:
@@ -66,7 +69,7 @@ def dict_to_vector(src):
             except KeyError:
                 pass
 
-        line_vectored = {"vectors": vectors, "url": url}
+        line_vectored = {"sentence": sentence, "vectors": np.asarray(vectors), "url": url}
         outputs.append(line_vectored)
 
     with open('../res/irasutoya_vectors.pickle', 'wb') as f:
