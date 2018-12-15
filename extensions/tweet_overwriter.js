@@ -2,11 +2,22 @@ var offset = 0;
 
 //ツイートを全て「にゃーん」にする
 function convert_nyan(){
-    var tweets = document.getElementsByClassName('js-tweet-text');
+	var tweets = document.getElementsByClassName('js-tweet-text');
+	var index = offset;
+    for (var i = offset; i < tweets.length; i++) {
+		offset++;
+		var textContent = tweets[i].textContent
+			.replace(/pic\.twitter\.com\/.*$/g, '')
+			.replace(/(http|https):\/\/.*$/g, '');
 
-    for (var i = offset, tweet; tweet = tweets[i]; i++) {
-        offset++;
-        tweet.innerHTML = 'にゃーん';
+		$.ajax({ 
+			type: 'POST',
+			url: 'http://localhost:3000/convert_tweets',
+			data: { 'tweet': textContent },
+		}).done(function(response) {
+			tweets[index].innerHTML = `<img src='${response.url}' width='100' height='100'/>`;
+			index++;
+		});
     }
 }
 
