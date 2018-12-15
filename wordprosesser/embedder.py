@@ -1,4 +1,5 @@
 from gensim.models import word2vec
+from gensim.models import KeyedVectors
 import logging
 import numpy as np
 
@@ -20,5 +21,16 @@ def get_model(model_src):
     return model
 
 
+def load_model(src):
+    model = KeyedVectors.load_word2vec_format(src, binary=True)
+
+    return model
+
+
+def main():
+    model = load_model("../model/entity_vector.model.bin")
+    print(model["浄水器"])
+
+
 if __name__ == "__main__":
-    pass
+    main()
