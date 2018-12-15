@@ -15,6 +15,7 @@ async def home(request, response, *, id, tweet):
     print("Query is", tweet_decoded)
     urls_translated = library.translate_to_images(tweet_decoded)
     response.media = { 'id': id, 'urls': urls_translated }
+    response.headers.update({ 'Access-Control-Allow-Origin': '*' })
 
 
 if __name__ == '__main__':
