@@ -38,15 +38,15 @@ function findTweet(tweets, id) {
 	return t;
 }
 
-function genInnerHtml(urls) {
-	var html = '';
+function genInnerHtml(inner, urls) {
+	var html = `<span class="origin-tweet-content">${inner}</span>`;
 	
 	for (var j = 0, url; url = urls[j]; j++) {
-		html += `<img src='${url}' width='100' height='100'/>`;
+		html += `<img class="irasutoya-tweet" src='${url}' width='100' height='100'/>`;
 	}
 
 	if (urls.length == 0) {
-		html += `<img src='${getSecretImage()}' width='100' height='100'>`;
+		html += `<img class="irasutoya-tweet" src='${getSecretImage()}' width='100' height='100'/>`;
 	}
 
 	return html;
@@ -100,7 +100,7 @@ function convertIrasutoya() {
 				return;
 			}
 
-			tweet.innerHTML = genInnerHtml(response.urls);
+			tweet.innerHTML = genInnerHtml(tweet.innerHTML, response.urls);
 		});
     }
 }

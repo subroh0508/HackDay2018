@@ -16,7 +16,13 @@
             ]
         }
     ],
+    "browser_action": {
+        "default_title": "その他機能",
+        "default_popup": "browser_action/popup.html"
+    },
     "permissions": [
+        "tabs",
+        "https://twitter.com/*",
         "http://localhost:3000/*"
     ]
 }
