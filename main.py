@@ -1,4 +1,5 @@
 import argparse
+import scraper.crawler as crlr
 
 
 def get_parser():
@@ -14,7 +15,7 @@ def get_parser():
 
 
 def crawl():
-    print("crawl")
+    crlr.main()
 
 
 def main():

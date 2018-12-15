@@ -63,7 +63,7 @@ def crawl(start, max_results=20):
 
 
 def crawl_all(start=1, page_max=10000, span=20):
-    results_list = Parallel(n_jobs=-1, verbose=0, timeout=None)\
+    results_list = Parallel(n_jobs=-1, verbose=3, timeout=None)\
         ([delayed(crawl)(i) for i in range(start, page_max, span)])
 
     # Parse to 1 dimension
@@ -81,5 +81,12 @@ def main():
         pickle.dump(result, f)
 
 
+def test():
+    with open('irasutoya_contents.pickle', 'rb') as f:
+        result = pickle.load(f)
+        print(len(result))
+        print(result)
+
+
 if __name__ == '__main__':
-    main()
+    test()
