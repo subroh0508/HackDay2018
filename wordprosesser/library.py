@@ -27,7 +27,9 @@ class IrasutoyaLibrary:
 
     def get_closest_image_url(self, word):
         try:
-            return self._cache[word]
+            cache = self._cache[word]
+            print("Cached.")
+            return cache
         except KeyError:
             pass
 
