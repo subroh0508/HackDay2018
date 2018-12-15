@@ -9,12 +9,12 @@ api = responder.API()
 library = IrasutoyaLibrary("../res/irasutoya_vectors.pickle")
 
 
-@api.route("/translate/{tweet}")
-async def home(request, response, *, tweet):
+@api.route("/translate/{id}/{tweet}")
+async def home(request, response, *, id, tweet):
     tweet_decoded = urllib.parse.unquote(tweet)
     print("Query is", tweet_decoded)
     urls_translated = library.translate_to_images(tweet_decoded)
-    response.media = {'urls': urls_translated}
+    response.media = { 'id': id, 'urls': urls_translated }
 
 
 if __name__ == '__main__':

@@ -1,21 +1,49 @@
+function guid() {
+	function s4() {
+	  return Math.floor((1 + Math.random()) * 0x10000)
+		.toString(16)
+		.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
+
 var offset = 0;
 
 //ツイートを全て「にゃーん」にする
 function convert_nyan(){
-	var tweets = document.getElementsByClassName('js-tweet-text');
-	var index = offset;
+	var rawTweets = document.getElementsByClassName('js-tweet-text');
+	var tweets = [];
+	for (var i = offset; i < rawTweets.length; i++) {
+		tweets[i] = { id: guid(), content: rawTweets[i] };
+	}
+
     for (var i = offset; i < tweets.length; i++) {
 		offset++;
-		var textContent = tweets[i].textContent
+		var textContent = tweets[i].content
+			.textContent
 			.replace(/pic\.twitter\.com\/.*$/g, '')
 			.replace(/(http|https):\/\/.*$/g, '');
 
+		if (textContent.length == 0) {
+			continue;
+		}
 		$.ajax({ 
 			type: 'GET',
-			url: 'http://localhost:3000/translate/'+textContent,
+			url: `http://localhost:3000/translate/${tweets[i].id}/${textContent}`,
 		}).done(function(response) {
-			tweets[index].innerHTML = `<img src='${response.urls[0]}' width='100' height='100'/>`;
-			index++;
+			var tweet = null;
+			for (var j = 0; j < tweets.length; j++) {
+				if (response.id === tweets[j].id) {
+					tweet = tweets[j].content;
+					break;
+				}
+			}
+
+			if (tweet === null) {
+				return;
+			}
+
+			tweet.innerHTML = `<img src='${response.urls[0]}' width='100' height='100'/>`;
 		});
     }
 }
