@@ -53,13 +53,13 @@ function genInnerHtml(urls) {
 }
 
 function genProgressInnerHtml(inner, progressCount) {
-	var replaced = inner.replace(/\<span\>.*\<\/span\>$/g, '');
+	var replaced = inner.replace(/\<span class="progress-count"\>.*\<\/span\>$/g, '');
 	
 	if (progressCount === 0) {
 		return replaced;
 	}
 
-	return replaced + `<span>${progressCount}件浄水中...</span>`;
+	return replaced + `<span class="progress-count">${progressCount}件浄水中...</span>`;
 }
 
 var offset = 0;
