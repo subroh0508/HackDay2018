@@ -83,12 +83,12 @@ def crawl_all(start=1, page_max=10000, span=20):
 def main():
     result = crawl_all(page_max=20700)
 
-    with open('irasutoya_contents.pickle', 'wb') as f:
+    with open('res/irasutoya_contents.pickle', 'wb') as f:
         pickle.dump(result, f)
 
 
 def test():
-    with open('../irasutoya_contents.pickle', 'rb') as f:
+    with open('../res/irasutoya_contents.pickle', 'rb') as f:
         result = pickle.load(f)
         print(len(result))
 

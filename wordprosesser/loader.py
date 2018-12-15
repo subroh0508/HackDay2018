@@ -19,7 +19,7 @@ def pickle_to_corpus(src, dst):
 
 
 def main():
-    pickle_to_corpus("../irasutoya_contents.pickle", "../corpus.txt")
+    pickle_to_corpus("../irasutoya_contents.pickle", "../res/corpus.txt")
 
 
 if __name__ == "__main__":
