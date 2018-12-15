@@ -1,0 +1,9 @@
+.js-global-actions {
+    line-height: 46px;
+}
+
+span.progress-count {
+    height: 46px;
+    font-size: 13px;
+    vertical-align: middle;
+}
