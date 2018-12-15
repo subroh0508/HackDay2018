@@ -24,6 +24,6 @@
         "tabs",
         "https://twitter.com/*",
         "http://localhost:3000/*",
-        "http://*.ngrok.io"
+        "https://*.ngrok.io"
     ]
 }

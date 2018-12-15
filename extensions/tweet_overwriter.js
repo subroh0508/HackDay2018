@@ -89,7 +89,7 @@ function convertIrasutoya() {
 		globalNav.innerHTML = genProgressInnerHtml(globalNav.innerHTML, progressCount);
 		$.ajax({ 
 			type: 'GET',
-			url: `http://138ea317.ngrok.io/translate/${tweets[i].id}/${textContent}`,
+			url: `https://138ea317.ngrok.io/translate/${tweets[i].id}/${textContent}`,
 		}).done(function(response) {
 			progressCount--;
 			globalNav.innerHTML = genProgressInnerHtml(globalNav.innerHTML, progressCount);
