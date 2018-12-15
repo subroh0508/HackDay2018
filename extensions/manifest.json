@@ -1,0 +1,11 @@
+{
+    "manifest_version": 2,
+    "name": "HackDay2018",
+    "version": "1",
+    "content_scripts": [
+        {
+            "matches": ["https://twitter.com/*"],
+            "js": ["tweet_overwriter.js"]
+        }
+    ]
+}
