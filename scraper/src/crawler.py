@@ -9,7 +9,7 @@ from collections import deque
 import argparse
 
 
-class Clawler:
+class Crawler:
     def __init__(self):
         pass
 
