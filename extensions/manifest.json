@@ -12,5 +12,8 @@
                 "tweet_overwriter.js"
             ]
         }
+    ],
+    "permissions": [
+        "http://localhost:3000/*"
     ]
 }
