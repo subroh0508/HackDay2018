@@ -25,7 +25,7 @@ class IrasutoyaLibrary:
         return urls
 
     def get_closest_image_url(self, word):
-        if not word in self._model:
+        if word not in self._model:
             return None
 
         max_ = -1.0
@@ -35,6 +35,8 @@ class IrasutoyaLibrary:
             if max_ < cos_sim:
                 closest_data = d
                 max_ = cos_sim
+                if max_ == 1.0:
+                    break
 
         return closest_data["url"]
 
