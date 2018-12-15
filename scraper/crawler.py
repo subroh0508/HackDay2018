@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from time import sleep
 from joblib import Parallel, delayed
 import pickle
+from selenium.common.exceptions import TimeoutException
 
 
 QUERY_ROOT = "https://www.irasutoya.com/search"
@@ -28,7 +29,11 @@ def crawl(start, max_results=20):
     driver = webdriver.Chrome(chrome_options=options)
 
     # get a HTML response
-    driver.get(query)
+    try:
+        driver.get(query)
+    except TimeoutException:
+        print("Timeout {}_{}".format(start, start+max_results-1))
+        return []
 
     # results
     try:
@@ -63,6 +68,7 @@ def crawl(start, max_results=20):
 
 
 def crawl_all(start=1, page_max=10000, span=20):
+
     results_list = Parallel(n_jobs=-1, verbose=3, timeout=None)\
         ([delayed(crawl)(i) for i in range(start, page_max, span)])
 
@@ -82,10 +88,9 @@ def main():
 
 
 def test():
-    with open('irasutoya_contents.pickle', 'rb') as f:
+    with open('../irasutoya_contents.pickle', 'rb') as f:
         result = pickle.load(f)
         print(len(result))
-        print(result)
 
 
 if __name__ == '__main__':
