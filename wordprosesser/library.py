@@ -8,6 +8,7 @@ class IrasutoyaLibrary:
     def __init__(self, src_pickle):
         self._data = IrasutoyaLibrary.load_vectors(src_pickle)
         self._model = load_model("../model/entity_vector.model.bin")
+        self._cache = dict()
 
     @staticmethod
     def load_vectors(src):
@@ -25,7 +26,14 @@ class IrasutoyaLibrary:
         return urls
 
     def get_closest_image_url(self, word):
-        if word not in self._model:
+        try:
+            return self._cache[word]
+        except KeyError:
+            pass
+
+        try:
+            self._model[word]
+        except KeyError:
             return None
 
         max_ = -1.0
@@ -38,7 +46,10 @@ class IrasutoyaLibrary:
                 if max_ == 1.0:
                     break
 
-        return closest_data["url"]
+        url = closest_data["url"]
+        self._cache[word] = url
+
+        return url
 
     def calc_max_cos_sim(self, src_vectors, word):
         if len(src_vectors) == 0:
@@ -90,7 +101,7 @@ class IrasutoyaLibrary:
 
 def main():
     library = IrasutoyaLibrary("../res/irasutoya_vectors.pickle")
-    urls = library.translate_to_images("もう辛い．仕事辞めたい帰りたい死にたい．")
+    urls = library.translate_to_images("もう辛い．仕事辞めたい帰りたい死にたい．もう辛い．仕事辞めたい帰りたい死にたい．")
 
     print("\n".join(urls))
 
