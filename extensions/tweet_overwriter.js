@@ -11,11 +11,10 @@ function convert_nyan(){
 			.replace(/(http|https):\/\/.*$/g, '');
 
 		$.ajax({ 
-			type: 'POST',
-			url: 'http://localhost:3000/convert_tweets',
-			data: { 'tweet': textContent },
+			type: 'GET',
+			url: 'http://localhost:3000/translate/'+textContent,
 		}).done(function(response) {
-			tweets[index].innerHTML = `<img src='${response.url}' width='100' height='100'/>`;
+			tweets[index].innerHTML = `<img src='${response.urls[0]}' width='100' height='100'/>`;
 			index++;
 		});
     }
