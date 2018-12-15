@@ -23,6 +23,7 @@
     "permissions": [
         "tabs",
         "https://twitter.com/*",
-        "http://localhost:3000/*"
+        "http://localhost:3000/*",
+        "http://*.ngrok.io"
     ]
 }
