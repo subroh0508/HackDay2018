@@ -31,7 +31,7 @@ def separate(text):
     mecab.parse('')
 
     stop_pos = ["助詞", "助動詞", "副詞", "BOS/EOS"]
-    stop_words = ["イラスト", "（", "）", "*", "．", "。"]
+    stop_words = ["イラスト", "（", "）", "*", "．", "。", "，", "、"]
 
     node = mecab.parseToNode(text)
 

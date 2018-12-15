@@ -20,10 +20,14 @@ class IrasutoyaLibrary:
         words = separate(sentence).split()
         print(words)
         urls = [self.get_closest_image_url(w) for w in words]
+        urls = [url for url in urls if url]
 
         return urls
 
     def get_closest_image_url(self, word):
+        if not word in self._model:
+            return None
+
         max_ = -1.0
         closest_data = None
         for d in self._data:
