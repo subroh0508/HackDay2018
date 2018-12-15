@@ -1,15 +1,15 @@
-//いいねを消し去る
+var offset = 0;
+
+//ツイートを全て「にゃーん」にする
 function convert_nyan(){
-	//要素を取得
-	var elements = document.getElementsByClassName('ProfileTweet-action--favorite');
-	while(elements.length != 0){
-		//いいねの要素を削除
-		elements[0].parentNode.removeChild(elements[0]);
-	}
-	console.log("hide");
+    var tweets = document.getElementsByClassName('js-tweet-text');
+
+    for (var i = offset, tweet; tweet = tweets[i]; i++) {
+        offset++;
+        tweet.innerHTML = 'にゃーん';
+    }
 }
 
-//ストリーム変更時にいいねを消し去る
 function ObserveStream(){
 	//オブザーバーの作成
 	var observer = new MutationObserver(convert_nyan);
