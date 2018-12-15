@@ -7,3 +7,11 @@ span.progress-count {
     font-size: 13px;
     vertical-align: middle;
 }
+
+.js-tweet-text > span.origin-tweet-content {
+    display: none;
+}
+
+.js-tweet-text > img.irasutoya-tweet {
+    display: inline;
+}
