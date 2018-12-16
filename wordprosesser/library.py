@@ -5,10 +5,12 @@ import numpy as np
 
 
 class IrasutoyaLibrary:
+    CACHE_DST = "./.cache"
+
     def __init__(self, src_pickle):
         self._data = IrasutoyaLibrary.load_vectors(src_pickle)
         self._model = load_model("../model/entity_vector.model.bin")
-        self._cache = dict()
+        self._cache = IrasutoyaLibrary.restore_cache()
 
     @staticmethod
     def load_vectors(src):
@@ -50,8 +52,27 @@ class IrasutoyaLibrary:
 
         url = closest_data["url"]
         self._cache[word] = url
+        if len(self._cache) % 30 == 0:
+            self.store_cache()
 
         return url
+
+    def store_cache(self):
+        with open(IrasutoyaLibrary.CACHE_DST, 'wb') as f:
+            pickle.dump(self._cache, f)
+            print("Stored cache to", IrasutoyaLibrary.CACHE_DST, "(Size: {})".format(len(self._cache)))
+
+    @staticmethod
+    def restore_cache():
+        try:
+            with open(IrasutoyaLibrary.CACHE_DST, 'rb') as f:
+                cache = pickle.load(f)
+                print("Restored Cache.", "(Size: {})".format(len(cache)))
+        except FileNotFoundError:
+            cache = dict()
+            print("There was no cache file.")
+
+        return cache
 
     def calc_max_cos_sim(self, src_vectors, word):
         if len(src_vectors) == 0:
